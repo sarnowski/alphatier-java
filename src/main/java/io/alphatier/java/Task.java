@@ -1,25 +1,23 @@
 package io.alphatier.java;
 
-import java.math.BigInteger;
-import java.util.Collections;
 import java.util.Map;
 
 public final class Task {
     private final String id;
     private final String executorId;
     private final LifecyclePhase lifecyclePhase;
-    private final Map<String,Long> resources;
+    private final Map<String,Number> resources;
     private final Map<Object,Object> metadata;
-    private final BigInteger metadataVersion;
+    private final Number metadataVersion;
 
     Task(final String id, final String executorId, final LifecyclePhase lifecyclePhase,
-                final Map<String, Long> resources, final Map<Object, Object> metadata,
-                final BigInteger metadataVersion) {
+                final Map<String, Number> resources, final Map<Object, Object> metadata,
+                final Number metadataVersion) {
         this.id = id;
         this.executorId = executorId;
         this.lifecyclePhase = lifecyclePhase;
-        this.resources = Collections.unmodifiableMap(resources);
-        this.metadata = Collections.unmodifiableMap(metadata);
+        this.resources = resources;
+        this.metadata = metadata;
         this.metadataVersion = metadataVersion;
     }
 
@@ -35,7 +33,7 @@ public final class Task {
         return lifecyclePhase;
     }
 
-    public Map<String, Long> getResources() {
+    public Map<String, Number> getResources() {
         return resources;
     }
 
@@ -43,7 +41,7 @@ public final class Task {
         return metadata;
     }
 
-    public BigInteger getMetadataVersion() {
+    public Number getMetadataVersion() {
         return metadataVersion;
     }
 }

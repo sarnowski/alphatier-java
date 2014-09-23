@@ -1,41 +1,33 @@
 package io.alphatier.java;
 
-import java.math.BigInteger;
-
 public abstract class CommitTask {
     private final String taskId;
-    private final String executorId;
 
-    private final BigInteger executorMetadataVersion;
-    private final BigInteger executorTaskIdsVersion;
-    private final BigInteger taskMetadataVersion;
+    private final Number metadataVersion;
+    private final Number executorMetadataVersion;
+    private final Number executorTaskIdsVersion;
 
-    protected CommitTask(final String taskId, final String executorId, final BigInteger executorMetadataVersion,
-                         final BigInteger executorTaskIdsVersion, final BigInteger taskMetadataVersion) {
+    protected CommitTask(final String taskId, final Number metadataVersion, final Number executorMetadataVersion,
+                         final Number executorTaskIdsVersion) {
         this.taskId = taskId;
-        this.executorId = executorId;
+        this.metadataVersion = metadataVersion;
         this.executorMetadataVersion = executorMetadataVersion;
         this.executorTaskIdsVersion = executorTaskIdsVersion;
-        this.taskMetadataVersion = taskMetadataVersion;
     }
 
     public String getTaskId() {
         return taskId;
     }
 
-    public String getExecutorId() {
-        return executorId;
+    public Number getMetadataVersion() {
+        return metadataVersion;
     }
 
-    public BigInteger getExecutorMetadataVersion() {
+    public Number getExecutorMetadataVersion() {
         return executorMetadataVersion;
     }
 
-    public BigInteger getExecutorTaskIdsVersion() {
+    public Number getExecutorTaskIdsVersion() {
         return executorTaskIdsVersion;
-    }
-
-    public BigInteger getTaskMetadataVersion() {
-        return taskMetadataVersion;
     }
 }

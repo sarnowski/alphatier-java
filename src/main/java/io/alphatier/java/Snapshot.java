@@ -3,26 +3,19 @@ package io.alphatier.java;
 import java.util.Collection;
 
 public final class Snapshot {
-    private final Object snapshot;
+    private final Collection<Executor> executors;
+    private final Collection<Task> tasks;
 
-    private volatile Collection<Executor> cachedExecutors;
-    private volatile Collection<Task> cachedTasks;
-
-    Snapshot(final Object snapshot) {
-        this.snapshot = snapshot;
-    }
-
-    Object getSnapshot() {
-        return snapshot;
+    public Snapshot(final Collection<Executor> executors, final Collection<Task> tasks) {
+        this.executors = executors;
+        this.tasks = tasks;
     }
 
     public Collection<Executor> getExecutors() {
-        // TODO lazy map executors and cache
-        return cachedExecutors;
+        return executors;
     }
 
     public Collection<Task> getTasks() {
-        // TODO lazy map tasks and cache
-        return cachedTasks;
+        return tasks;
     }
 }

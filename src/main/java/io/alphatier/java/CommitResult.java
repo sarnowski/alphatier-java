@@ -1,20 +1,19 @@
 package io.alphatier.java;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 
 public final class CommitResult {
     private final Collection<CommitTask> acceptedTasks;
     private final Map<String,Collection<CommitTask>> rejectedTasks;
-    private final Snapshot preSnapshot;
-    private final Snapshot postSnapshot;
+    private final LazySnapshot preSnapshot;
+    private final LazySnapshot postSnapshot;
 
     CommitResult(final Collection<CommitTask> acceptedTasks,
-                        final Map<String, Collection<CommitTask>> rejectedTasks, final Snapshot preSnapshot,
-                        final Snapshot postSnapshot) {
-        this.acceptedTasks = Collections.unmodifiableCollection(acceptedTasks);
-        this.rejectedTasks = Collections.unmodifiableMap(rejectedTasks);
+                        final Map<String, Collection<CommitTask>> rejectedTasks, final LazySnapshot preSnapshot,
+                        final LazySnapshot postSnapshot) {
+        this.acceptedTasks = acceptedTasks;
+        this.rejectedTasks = rejectedTasks;
         this.preSnapshot = preSnapshot;
         this.postSnapshot = postSnapshot;
     }
@@ -27,11 +26,11 @@ public final class CommitResult {
         return rejectedTasks;
     }
 
-    public Snapshot getPreSnapshot() {
+    public LazySnapshot getPreSnapshot() {
         return preSnapshot;
     }
 
-    public Snapshot getPostSnapshot() {
+    public LazySnapshot getPostSnapshot() {
         return postSnapshot;
     }
 }

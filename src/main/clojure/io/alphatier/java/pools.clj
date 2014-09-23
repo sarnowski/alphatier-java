@@ -1,6 +1,7 @@
 (ns io.alphatier.java.pools
-  (:import (io.alphatier.java Pool Snapshot))
-  (:require [io.alphatier.pools :as pools])
+  (:import (io.alphatier.java Pool Snapshot LazySnapshot))
+  (:require [io.alphatier.pools :as pools]
+            [io.alphatier.java.mappings :as mappings])
   (:gen-class
     :name "io.alphatier.java.ClojurePools"
     :implements [io.alphatier.java.Pools]))
@@ -9,7 +10,9 @@
   (Pool. (pools/create)))
 
 (defn -createWithSnapshot [^Snapshot snapshot]
-  (Pool. (pools/create-with-state (.getSnapshot snapshot))))
+  (Pool. (pools/create-with-state
+           (mappings/from-Snapshot snapshot))))
 
-(defn get-snapshot [^Pool pool]
-  (Snapshot. (pools/get-snapshot (.getPool pool))))
+(defn -getSnapshot [^Pool pool]
+  (mappings/to-LazySnapshot
+    (pools/get-snapshot (.getPool pool))))

@@ -1,26 +1,24 @@
 package io.alphatier.java;
 
-import java.math.BigInteger;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 
 public final class ExecutorRegistration {
     private final String id;
-    private final Map<String,Long> resources;
+    private final Map<String,Number> resources;
     private final Map<Object,Object> metadata;
-    private final BigInteger metadataVersion;
+    private final Number metadataVersion;
     private final Collection<Task> tasks;
-    private final BigInteger taskIdsVersion;
+    private final Number taskIdsVersion;
 
-    public ExecutorRegistration(final String id, final Map<String, Long> resources, final Map<Object, Object> metadata,
-                                final BigInteger metadataVersion, final Collection<Task> tasks,
-                                final BigInteger taskIdsVersion) {
+    public ExecutorRegistration(final String id, final Map<String, Number> resources, final Map<Object, Object> metadata,
+                                final Number metadataVersion, final Collection<Task> tasks,
+                                final Number taskIdsVersion) {
         this.id = id;
-        this.resources = Collections.unmodifiableMap(resources);
-        this.metadata = Collections.unmodifiableMap(metadata);
+        this.resources = resources;
+        this.metadata = metadata;
         this.metadataVersion = metadataVersion;
-        this.tasks = Collections.unmodifiableCollection(tasks);
+        this.tasks = tasks;
         this.taskIdsVersion = taskIdsVersion;
     }
 
@@ -28,7 +26,7 @@ public final class ExecutorRegistration {
         return id;
     }
 
-    public Map<String, Long> getResources() {
+    public Map<String, Number> getResources() {
         return resources;
     }
 
@@ -36,7 +34,7 @@ public final class ExecutorRegistration {
         return metadata;
     }
 
-    public BigInteger getMetadataVersion() {
+    public Number getMetadataVersion() {
         return metadataVersion;
     }
 
@@ -44,7 +42,7 @@ public final class ExecutorRegistration {
         return tasks;
     }
 
-    public BigInteger getTaskIdsVersion() {
+    public Number getTaskIdsVersion() {
         return taskIdsVersion;
     }
 }

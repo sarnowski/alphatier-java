@@ -1,7 +1,6 @@
 package io.alphatier.java;
 
 import java.util.Collection;
-import java.util.Collections;
 
 public final class Commit {
     private final String schedulerId;
@@ -10,7 +9,7 @@ public final class Commit {
 
     public Commit(final String schedulerId, final Collection<CommitTask> tasks, final boolean allowPartialCommit) {
         this.schedulerId = schedulerId;
-        this.tasks = Collections.unmodifiableCollection(tasks);
+        this.tasks = tasks;
         this.allowPartialCommit = allowPartialCommit;
     }
 
