@@ -9,7 +9,7 @@ public final class CommitResult {
     private final LazySnapshot preSnapshot;
     private final LazySnapshot postSnapshot;
 
-    CommitResult(final Collection<CommitTask> acceptedTasks,
+    public CommitResult(final Collection<CommitTask> acceptedTasks,
                         final Map<String, Collection<CommitTask>> rejectedTasks, final LazySnapshot preSnapshot,
                         final LazySnapshot postSnapshot) {
         this.acceptedTasks = acceptedTasks;

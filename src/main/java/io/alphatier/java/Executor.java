@@ -12,9 +12,9 @@ public final class Executor {
     private final Collection<String> taskIds;
     private final Number taskIdsVersion;
 
-    Executor(final String id, final Status status, final Map<String, Number> resources,
-                    final Map<Object, Object> metadata, final Number metadataVersion,
-                    final Collection<String> taskIds, final Number taskIdsVersion) {
+    public Executor(final String id, final Status status, final Map<String, Number> resources,
+             final Map<Object, Object> metadata, final Number metadataVersion,
+             final Collection<String> taskIds, final Number taskIdsVersion) {
         this.id = id;
         this.status = status;
         this.resources = resources;

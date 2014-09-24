@@ -7,7 +7,7 @@
     :name "io.alphatier.java.ClojureSchedulers"
     :implements [io.alphatier.java.Schedulers]))
 
-(defn -commit [^Pool pool ^Commit commit]
+(defn -commit [_ ^Pool pool ^Commit commit]
   (try
     (mappings/to-CommitResult
       (schedulers/commit (.getPool pool)
@@ -17,7 +17,7 @@
       (throw (CommitRejectedException.
                (mappings/to-CommitResult (ex-data e)))))))
 
-(defn -forcedCommit [^Pool pool ^Commit commit]
+(defn -forcedCommit [_ ^Pool pool ^Commit commit]
   (mappings/to-CommitResult
     (schedulers/commit (.getPool pool)
                        (mappings/from-Commit commit)

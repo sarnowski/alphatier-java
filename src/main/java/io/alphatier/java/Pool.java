@@ -3,11 +3,11 @@ package io.alphatier.java;
 public final class Pool {
     private final Object pool;
 
-    Pool(final Object pool) {
+    public Pool(final Object pool) {
         this.pool = pool;
     }
 
-    Object getPool() {
+    public Object getPool() {
         return pool;
     }
 }

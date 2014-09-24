@@ -10,7 +10,7 @@ public final class Task {
     private final Map<Object,Object> metadata;
     private final Number metadataVersion;
 
-    Task(final String id, final String executorId, final LifecyclePhase lifecyclePhase,
+    public Task(final String id, final String executorId, final LifecyclePhase lifecyclePhase,
                 final Map<String, Number> resources, final Map<Object, Object> metadata,
                 final Number metadataVersion) {
         this.id = id;

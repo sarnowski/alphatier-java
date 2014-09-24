@@ -6,13 +6,13 @@
     :name "io.alphatier.java.ClojurePools"
     :implements [io.alphatier.java.Pools]))
 
-(defn -create []
+(defn -create [_]
   (Pool. (pools/create)))
 
-(defn -createWithSnapshot [^Snapshot snapshot]
-  (Pool. (pools/create-with-state
+(defn -createWithSnapshot [_ ^Snapshot snapshot]
+  (Pool. (pools/create-with-snapshot
            (mappings/from-Snapshot snapshot))))
 
-(defn -getSnapshot [^Pool pool]
+(defn -getSnapshot [_ ^Pool pool]
   (mappings/to-LazySnapshot
     (pools/get-snapshot (.getPool pool))))

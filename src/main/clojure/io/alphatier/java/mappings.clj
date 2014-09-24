@@ -1,7 +1,8 @@
 (ns io.alphatier.java.mappings
   (:import (io.alphatier.java Snapshot Executor Status Task LifecyclePhase LazySnapshot CommitResult Commit
-                              CommitCreateTask CommitUpdateTask CommitKillTask CommitTask))
-  (:require [io.alphatier.schedulers :as schedulers]))
+                              CommitCreateTask CommitUpdateTask CommitKillTask CommitTask ExecutorRegistration))
+  (:require [io.alphatier.schedulers :as schedulers]
+            [io.alphatier.pools :as pools]))
 
 (def to-Status
   {:registered Status/REGISTERED
@@ -22,6 +23,13 @@
    :created LifecyclePhase/CREATED
    :kill LifecyclePhase/KILL
    :killing LifecyclePhase/KILLING })
+
+(def from-LifecyclePhase
+  {LifecyclePhase/CREATE :create
+   LifecyclePhase/CREATING :creating
+   LifecyclePhase/CREATED :created
+   LifecyclePhase/KILL :kill
+   LifecyclePhase/KILLING :killing})
 
 (defn to-Task [task]
   (Task.(:id task)
@@ -45,7 +53,7 @@
 (defn from-Snapshot [snapshot]
   (throw (UnsupportedOperationException. "from-Snapshot")))
 
-(defn- to-original [value]
+(defn to-original [value]
   (:original (meta value)))
 
 (defn to-CommitResult [result]
@@ -68,8 +76,8 @@
       (from-CommitTaskBase task)
       {:action :create
        :executor-id (.getExecutorId task)
-       :resources (.getResources task)
-       :metadata (.getMetadata task)})
+       :resources (into {} (.getResources task))
+       :metadata (into {} (.getMetadata task))})
     {:original task}))
 
 (defmethod from-CommitTask CommitUpdateTask [task]
@@ -77,7 +85,7 @@
     (merge
       (from-CommitTaskBase task)
       {:action :update
-       :metadata (.getMetadata task)})
+       :metadata (into {} (.getMetadata task))})
     {:original task}))
 
 (defmethod from-CommitTask CommitKillTask [task]
@@ -93,3 +101,19 @@
                              :tasks (map from-CommitTask (.getTasks commit))
                              :allow-partial-commit (.isAllowPartialCommit commit)})
     {:original commit}))
+
+(defn from-Task [^Task task]
+  (pools/map->Task {:id (.getId task)
+                    :executor-id (.getExecutorId task)
+                    :lifecycle-phase (from-LifecyclePhase (.getLifecyclePhase task))
+                    :resources (into {} (.getResources task))
+                    :metadata (into {} (.getMetadata task))
+                    :metadata-version (.getMetadataVersion task)}))
+
+(defn from-ExecutorRegistration [^ExecutorRegistration reg]
+  {:id (.getId reg)
+   :resources (into {} (.getResources reg))
+   :metadata (into {} (.getMetadata reg))
+   :metadata-version (.getMetadataVersion reg)
+   :tasks (map from-Task (.getTasks reg))
+   :task-ids-version (.getTaskIdsVersion reg)})
