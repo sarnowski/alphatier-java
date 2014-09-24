@@ -1,14 +1,14 @@
 package io.alphatier.java;
 
-public abstract class CommitTask {
+public abstract class CommitAction {
     private final String taskId;
 
     private final Number metadataVersion;
     private final Number executorMetadataVersion;
     private final Number executorTaskIdsVersion;
 
-    protected CommitTask(final String taskId, final Number metadataVersion, final Number executorMetadataVersion,
-                         final Number executorTaskIdsVersion) {
+    protected CommitAction(final String taskId, final Number metadataVersion, final Number executorMetadataVersion,
+                           final Number executorTaskIdsVersion) {
         this.taskId = taskId;
         this.metadataVersion = metadataVersion;
         this.executorMetadataVersion = executorMetadataVersion;

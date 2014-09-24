@@ -1,6 +1,6 @@
 (ns io.alphatier.java.mappings
   (:import (io.alphatier.java Snapshot Executor Status Task LifecyclePhase LazySnapshot CommitResult Commit
-                              CommitCreateTask CommitUpdateTask CommitKillTask CommitTask ExecutorRegistration))
+                              CommitCreateAction CommitUpdateAction CommitKillAction CommitAction ExecutorRegistration))
   (:require [io.alphatier.schedulers :as schedulers]
             [io.alphatier.pools :as pools]))
 
@@ -32,16 +32,17 @@
    LifecyclePhase/KILLING :killing})
 
 (defn to-Task [task]
-  (Task.(:id task)
-        (:executor-id task)
-        (to-LifecyclePhase (:lifecycle-phase task))
-        (:resources task)
-        (:metadata task)
-        (:metadata-version task)))
+  (Task. (:id task)
+         (:executor-id task)
+         (:scheduler-id task)
+         (to-LifecyclePhase (:lifecycle-phase task))
+         (:resources task)
+         (:metadata task)
+         (:metadata-version task)))
 
 (defn to-Snapshot [snapshot]
-  (Snapshot. (doall (map to-Executor (:executors snapshot)))
-             (doall (map to-Task (:tasks snapshot)))))
+  (Snapshot. (doall (into {} (map (fn [[k v]] [k (to-Executor v)]) (:executors snapshot))))
+             (doall (into {} (map (fn [[k v]] [k (to-Task v)]) (:tasks snapshot))))))
 
 (defn to-LazySnapshot [snapshot]
   (reify LazySnapshot
@@ -62,7 +63,7 @@
                   (to-LazySnapshot (:pre-snapshot result))
                   (to-LazySnapshot (:post-snapshot result))))
 
-(defn- from-CommitTaskBase [^CommitTask task]
+(defn- from-CommitTaskBase [^CommitAction task]
   {:id (.getTaskId task)
    :metadata-version (.getMetadataVersion task)
    :executor-metadata-version (.getExecutorMetadataVersion task)
@@ -70,7 +71,7 @@
 
 (defmulti from-CommitTask class)
 
-(defmethod from-CommitTask CommitCreateTask [task]
+(defmethod from-CommitTask CommitCreateAction [task]
   (with-meta
     (merge
       (from-CommitTaskBase task)
@@ -80,7 +81,7 @@
        :metadata (into {} (.getMetadata task))})
     {:original task}))
 
-(defmethod from-CommitTask CommitUpdateTask [task]
+(defmethod from-CommitTask CommitUpdateAction [task]
   (with-meta
     (merge
       (from-CommitTaskBase task)
@@ -88,7 +89,7 @@
        :metadata (into {} (.getMetadata task))})
     {:original task}))
 
-(defmethod from-CommitTask CommitKillTask [task]
+(defmethod from-CommitTask CommitKillAction [task]
   (with-meta
     (merge
       (from-CommitTaskBase task)
@@ -98,7 +99,7 @@
 (defn from-Commit [^Commit commit]
   (with-meta
     (schedulers/map->Commit {:scheduler-id (.getSchedulerId commit)
-                             :tasks (map from-CommitTask (.getTasks commit))
+                             :tasks (map from-CommitTask (.getActions commit))
                              :allow-partial-commit (.isAllowPartialCommit commit)})
     {:original commit}))
 
@@ -115,5 +116,5 @@
    :resources (into {} (.getResources reg))
    :metadata (into {} (.getMetadata reg))
    :metadata-version (.getMetadataVersion reg)
-   :tasks (map from-Task (.getTasks reg))
+   :tasks (map from-Task (.getActions reg))
    :task-ids-version (.getTaskIdsVersion reg)})

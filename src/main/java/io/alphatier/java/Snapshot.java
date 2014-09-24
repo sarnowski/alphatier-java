@@ -1,21 +1,21 @@
 package io.alphatier.java;
 
-import java.util.Collection;
+import java.util.Map;
 
 public final class Snapshot {
-    private final Collection<Executor> executors;
-    private final Collection<Task> tasks;
+    private final Map<String,Executor> executors;
+    private final Map<String,Task> tasks;
 
-    public Snapshot(final Collection<Executor> executors, final Collection<Task> tasks) {
+    public Snapshot(final Map<String,Executor> executors, final Map<String,Task> tasks) {
         this.executors = executors;
         this.tasks = tasks;
     }
 
-    public Collection<Executor> getExecutors() {
+    public Map<String,Executor> getExecutors() {
         return executors;
     }
 
-    public Collection<Task> getTasks() {
+    public Map<String,Task> getTasks() {
         return tasks;
     }
 }

@@ -4,12 +4,12 @@ import java.util.Collection;
 
 public final class Commit {
     private final String schedulerId;
-    private final Collection<CommitTask> tasks;
+    private final Collection<CommitAction> actions;
     private final boolean allowPartialCommit;
 
-    public Commit(final String schedulerId, final Collection<CommitTask> tasks, final boolean allowPartialCommit) {
+    public Commit(final String schedulerId, final Collection<CommitAction> actions, final boolean allowPartialCommit) {
         this.schedulerId = schedulerId;
-        this.tasks = tasks;
+        this.actions = actions;
         this.allowPartialCommit = allowPartialCommit;
     }
 
@@ -17,8 +17,8 @@ public final class Commit {
         return schedulerId;
     }
 
-    public Collection<CommitTask> getTasks() {
-        return tasks;
+    public Collection<CommitAction> getActions() {
+        return actions;
     }
 
     public boolean isAllowPartialCommit() {
