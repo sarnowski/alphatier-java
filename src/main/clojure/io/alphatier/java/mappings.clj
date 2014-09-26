@@ -55,9 +55,6 @@
         (to-Snapshot snapshot)
         nil))))
 
-(defn from-Snapshot [snapshot]
-  (throw (UnsupportedOperationException. "from-Snapshot")))
-
 (defn to-original [value]
   (:original (meta value)))
 
@@ -115,10 +112,3 @@
                     :metadata (into {} (.getMetadata task))
                     :metadata-version (.getMetadataVersion task)}))
 
-(defn from-ExecutorRegistration [^ExecutorRegistration reg]
-  {:id (.getId reg)
-   :resources (into {} (.getResources reg))
-   :metadata (into {} (.getMetadata reg))
-   :metadata-version (.getMetadataVersion reg)
-   :tasks (map from-Task (.getActions reg))
-   :task-ids-version (.getTaskIdsVersion reg)})

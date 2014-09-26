@@ -7,7 +7,13 @@
   (:import (io.alphatier.java ExecutorRegistration Pool LifecyclePhase)))
 
 (defn -register [_ ^Pool pool ^ExecutorRegistration registration]
-  (executors/register (.getPool pool) (mappings/from-ExecutorRegistration registration)))
+  (executors/register (.getPool pool)
+                      (.getId registration)
+                      (.getResources registration)
+                      :metadata (into {} (.getMetadata registration))
+                      :metadata-version (.getMetadataVersion registration)
+                      :tasks (map mappings/from-Task (.getTasks registration))
+                      :task-ids-version (.getTaskIdsVersion registration)))
 
 (defn -update [_ ^Pool pool ^String executor-id metadata]
   (executors/update (.getPool pool) executor-id (into {} metadata)))

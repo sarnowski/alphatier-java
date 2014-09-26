@@ -9,10 +9,6 @@
 (defn -create [_]
   (Pool. (pools/create)))
 
-(defn -createWithSnapshot [_ ^Snapshot snapshot]
-  (Pool. (pools/create-with-snapshot
-           (mappings/from-Snapshot snapshot))))
-
 (defn -getSnapshot [_ ^Pool pool]
   (mappings/to-LazySnapshot
     (pools/get-snapshot (.getPool pool))))
