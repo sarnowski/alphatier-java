@@ -51,4 +51,17 @@ public final class Executor {
     public Number getTaskIdsVersion() {
         return taskIdsVersion;
     }
+
+    @Override
+    public String toString() {
+        return "Executor{" +
+                "id='" + id + '\'' +
+                ", status=" + status +
+                ", resources=" + resources +
+                ", metadata=" + metadata +
+                ", metadataVersion=" + metadataVersion +
+                ", taskIds=" + taskIds +
+                ", taskIdsVersion=" + taskIdsVersion +
+                '}';
+    }
 }

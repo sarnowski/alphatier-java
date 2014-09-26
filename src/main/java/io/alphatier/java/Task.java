@@ -50,4 +50,17 @@ public final class Task {
     public Number getMetadataVersion() {
         return metadataVersion;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id='" + id + '\'' +
+                ", executorId='" + executorId + '\'' +
+                ", schedulerId='" + schedulerId + '\'' +
+                ", lifecyclePhase=" + lifecyclePhase +
+                ", resources=" + resources +
+                ", metadata=" + metadata +
+                ", metadataVersion=" + metadataVersion +
+                '}';
+    }
 }

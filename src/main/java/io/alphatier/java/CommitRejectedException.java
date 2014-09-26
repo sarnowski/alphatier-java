@@ -10,4 +10,11 @@ public final class CommitRejectedException extends Exception {
     public CommitResult getResult() {
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "CommitRejectedException{" +
+                "result=" + result +
+                '}';
+    }
 }

@@ -24,4 +24,13 @@ public final class Commit {
     public boolean isAllowPartialCommit() {
         return allowPartialCommit;
     }
+
+    @Override
+    public String toString() {
+        return "Commit{" +
+                "schedulerId='" + schedulerId + '\'' +
+                ", actions=" + actions +
+                ", allowPartialCommit=" + allowPartialCommit +
+                '}';
+    }
 }

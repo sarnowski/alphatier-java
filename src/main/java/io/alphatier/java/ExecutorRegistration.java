@@ -45,4 +45,16 @@ public final class ExecutorRegistration {
     public Number getTaskIdsVersion() {
         return taskIdsVersion;
     }
+
+    @Override
+    public String toString() {
+        return "ExecutorRegistration{" +
+                "id='" + id + '\'' +
+                ", resources=" + resources +
+                ", metadata=" + metadata +
+                ", metadataVersion=" + metadataVersion +
+                ", tasks=" + tasks +
+                ", taskIdsVersion=" + taskIdsVersion +
+                '}';
+    }
 }

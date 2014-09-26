@@ -33,4 +33,14 @@ public final class CommitResult {
     public LazySnapshot getPostSnapshot() {
         return postSnapshot;
     }
+
+    @Override
+    public String toString() {
+        return "CommitResult{" +
+                "acceptedActions=" + acceptedActions +
+                ", rejectedActions=" + rejectedActions +
+                ", preSnapshot=" + preSnapshot +
+                ", postSnapshot=" + postSnapshot +
+                '}';
+    }
 }

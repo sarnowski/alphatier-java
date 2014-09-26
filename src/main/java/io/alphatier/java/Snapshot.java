@@ -18,4 +18,12 @@ public final class Snapshot {
     public Map<String,Task> getTasks() {
         return tasks;
     }
+
+    @Override
+    public String toString() {
+        return "Snapshot{" +
+                "executors=" + executors +
+                ", tasks=" + tasks +
+                '}';
+    }
 }

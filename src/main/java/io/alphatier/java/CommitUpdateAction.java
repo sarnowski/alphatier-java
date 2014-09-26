@@ -14,4 +14,15 @@ public final class CommitUpdateAction extends CommitAction {
     public Map<Object, Object> getMetadata() {
         return metadata;
     }
+
+    @Override
+    public String toString() {
+        return "CommitCreateAction{" +
+                "taskId='" + getTaskId() + '\'' +
+                ", metadata=" + metadata +
+                ", metadataVersion=" + getMetadataVersion() +
+                ", executorMetadataVersion=" + getExecutorMetadataVersion() +
+                ", executorTaskIdsVersion=" + getExecutorTaskIdsVersion() +
+                '}';
+    }
 }

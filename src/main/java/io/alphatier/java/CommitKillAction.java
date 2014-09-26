@@ -5,4 +5,14 @@ public final class CommitKillAction extends CommitAction {
                             final Number executorTaskIdsVersion) {
         super(taskId, taskMetadataVersion, executorMetadataVersion, executorTaskIdsVersion);
     }
+
+    @Override
+    public String toString() {
+        return "CommitKillAction{" +
+                "taskId='" + getTaskId() + '\'' +
+                ", metadataVersion=" + getMetadataVersion() +
+                ", executorMetadataVersion=" + getExecutorMetadataVersion() +
+                ", executorTaskIdsVersion=" + getExecutorTaskIdsVersion() +
+                '}';
+    }
 }
