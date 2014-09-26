@@ -2,7 +2,8 @@
   (:import (io.alphatier.java Snapshot Executor Status Task LifecyclePhase LazySnapshot CommitResult Commit
                               CommitCreateAction CommitUpdateAction CommitKillAction CommitAction ExecutorRegistration))
   (:require [io.alphatier.schedulers :as schedulers]
-            [io.alphatier.pools :as pools]))
+            [io.alphatier.pools :as pools]
+            [clojure.core.memoize :as memoize]))
 
 (def to-Status
   {:registered Status/REGISTERED
@@ -40,9 +41,12 @@
          (:metadata task)
          (:metadata-version task)))
 
-(defn to-Snapshot [snapshot]
+(defn- to-Snapshot' [snapshot]
   (Snapshot. (doall (into {} (map (fn [[k v]] [k (to-Executor v)]) (:executors snapshot))))
              (doall (into {} (map (fn [[k v]] [k (to-Task v)]) (:tasks snapshot))))))
+
+(def to-Snapshot
+  (memoize/lru to-Snapshot'))
 
 (defn to-LazySnapshot [snapshot]
   (reify LazySnapshot

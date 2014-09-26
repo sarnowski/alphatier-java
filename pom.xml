@@ -16,6 +16,12 @@
             <artifactId>alphatier</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.clojure</groupId>
+            <artifactId>core.memoize</artifactId>
+            <version>0.5.6</version>
+        </dependency>
     </dependencies>
 
     <build>
