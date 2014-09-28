@@ -100,7 +100,7 @@
 (defn from-Commit [^Commit commit]
   (with-meta
     (schedulers/map->Commit {:scheduler-id (.getSchedulerId commit)
-                             :tasks (map from-CommitTask (.getActions commit))
+                             :actions (map from-CommitTask (.getActions commit))
                              :allow-partial-commit (.isAllowPartialCommit commit)})
     {:original commit}))
 
