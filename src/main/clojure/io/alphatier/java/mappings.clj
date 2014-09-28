@@ -107,6 +107,7 @@
 (defn from-Task [^Task task]
   (pools/map->Task {:id (.getId task)
                     :executor-id (.getExecutorId task)
+                    :scheduler-id (.getSchedulerId task)
                     :lifecycle-phase (from-LifecyclePhase (.getLifecyclePhase task))
                     :resources (into {} (.getResources task))
                     :metadata (into {} (.getMetadata task))
