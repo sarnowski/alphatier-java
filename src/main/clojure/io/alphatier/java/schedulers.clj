@@ -4,7 +4,7 @@
   (:require [io.alphatier.schedulers :as schedulers]
             [io.alphatier.java.mappings :as mappings])
   (:gen-class
-    :name "io.alphatier.java.ClojureSchedulers"
+    :name io.alphatier.java.InternalSchedulers
     :implements [io.alphatier.java.Schedulers]))
 
 (defn -commit [_ ^Pool pool ^Commit commit]

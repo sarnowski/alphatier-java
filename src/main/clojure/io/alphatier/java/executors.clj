@@ -2,7 +2,7 @@
   (:require [io.alphatier.executors :as executors]
             [io.alphatier.java.mappings :as mappings])
   (:gen-class
-    :name "io.alphatier.java.ClojureExecutors"
+    :name io.alphatier.java.InternalExecutors
     :implements [io.alphatier.java.Executors])
   (:import (io.alphatier.java ExecutorRegistration Pool LifecyclePhase)))
 

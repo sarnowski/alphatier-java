@@ -14,17 +14,17 @@ library. Please read its documentation to gain knowledge about its usage. The do
 namespaces from Alphatier are available through their respective Java interfaces.
 
 * **io.alphatier.pools**
-** interface: io.alphatier.java.Pools
-** implementation: io.alphatier.java.ClojurePools
+    * interface: io.alphatier.java.Pools
+    * implementation: io.alphatier.java.InternalPools
 * **io.alphatier.schedulers**
-** interface: io.alphatier.java.Schedulers
-** implementation: io.alphatier.java.ClojureSchedulers
+    * interface: io.alphatier.java.Schedulers
+    * implementation: io.alphatier.java.InternalSchedulers
 * **io.alphatier.constraints**
-** interface: io.alphatier.java.Constraints
-** implementation: io.alphatier.java.ClojureConstraints
+    * interface: io.alphatier.java.Constraints
+    * implementation: io.alphatier.java.InternalConstraints
 * **io.alphatier.executors**
-** interface: io.alphatier.java.Executors
-** implementation: io.alphatier.java.ClojureExecutors
+    * interface: io.alphatier.java.Executors
+    * implementation: io.alphatier.java.InternalExecutors
 
 ## Development
 

@@ -2,7 +2,7 @@
   (:require [io.alphatier.constraints :as constraints]
             [io.alphatier.java.mappings :as mappings])
   (:gen-class
-    :name "io.alphatier.java.ClojureConstraints"
+    :name io.alphatier.java.InternalConstraints
     :implements [io.alphatier.java.Constraints])
   (:import (io.alphatier.java Pool PreConstraint PostConstraint)))
 

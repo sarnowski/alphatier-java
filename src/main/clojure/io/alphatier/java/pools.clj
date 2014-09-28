@@ -3,7 +3,7 @@
   (:require [io.alphatier.pools :as pools]
             [io.alphatier.java.mappings :as mappings])
   (:gen-class
-    :name "io.alphatier.java.ClojurePools"
+    :name io.alphatier.java.InternalPools
     :implements [io.alphatier.java.Pools]))
 
 (defn -create [_]
