@@ -59,8 +59,8 @@
   (:original (meta value)))
 
 (defn to-CommitResult [result]
-  (CommitResult.  (doall (map to-original (:accepted-tasks result)))
-                  (doall (into {} (map (fn [[c t]] [c (to-original t)]) (:rejected-tasks result))))
+  (CommitResult.  (doall (map to-original (:accepted-actions result)))
+                  (doall (into {} (map (fn [[c t]] [c (to-original t)]) (:rejected-actions result))))
                   (to-LazySnapshot (:pre-snapshot result))
                   (to-LazySnapshot (:post-snapshot result))))
 

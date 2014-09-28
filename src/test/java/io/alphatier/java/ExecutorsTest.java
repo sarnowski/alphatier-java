@@ -12,7 +12,6 @@ public class ExecutorsTest {
     public void registerExecutor() {
         Pool pool = Units.POOLS.create();
 
-        // TODO add and check tasks
         ExecutorRegistration registration = new ExecutorRegistration(
                 "test-executor",
                 new HashMap<String,Number>() {{
