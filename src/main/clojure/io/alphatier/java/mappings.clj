@@ -6,6 +6,11 @@
             [io.alphatier.pools :as pools]
             [clojure.core.memoize :as memoize]))
 
+(defn with-default [default value]
+  (if (nil? value)
+    default
+    value))
+
 (def to-Status
   {:registered Status/REGISTERED
    :unregistered Status/UNREGISTERED})
@@ -66,10 +71,16 @@
                   (to-LazySnapshot (:post-snapshot result))))
 
 (defn- from-CommitTaskBase [^CommitAction task]
-  {:id (.getTaskId task)
-   :metadata-version (.getMetadataVersion task)
-   :executor-metadata-version (.getExecutorMetadataVersion task)
-   :executor-task-ids-version (.getExecutorTaskIdsVersion task)})
+  (merge {:id (.getTaskId task)}
+         (if (nil? (.getMetadataVersion task))
+           {}
+           {:metadata-version (.getMetadataVersion task)})
+         (if (nil? (.getExecutorMetadataVersion task))
+           {}
+           {:executor-metadata-version (.getExecutorMetadataVersion task)})
+         (if (nil? (.getExecutorTaskIdsVersion task))
+           {}
+           {:executor-task-ids-version (.getExecutorTaskIdsVersion task)})))
 
 (defmulti from-CommitTask class)
 
@@ -80,7 +91,8 @@
       {:type :create
        :executor-id (.getExecutorId task)
        :resources (into {} (.getResources task))
-       :metadata (into {} (.getMetadata task))})
+       :metadata (into {} (.getMetadata task))
+       :metadata-version (with-default 0 (.getMetadataVersion task))})
     {:original task}))
 
 (defmethod from-CommitTask CommitUpdateAction [task]

@@ -11,9 +11,9 @@
                       (.getId registration)
                       (.getResources registration)
                       :metadata (into {} (.getMetadata registration))
-                      :metadata-version (.getMetadataVersion registration)
+                      :metadata-version (mappings/with-default 0 (.getMetadataVersion registration))
                       :tasks (map mappings/from-Task (.getTasks registration))
-                      :task-ids-version (.getTaskIdsVersion registration)))
+                      :task-ids-version (mappings/with-default 0 (.getTaskIdsVersion registration))))
 
 (defn -update [_ ^Pool pool ^String executor-id metadata]
   (executors/update (.getPool pool) executor-id (into {} metadata)))
