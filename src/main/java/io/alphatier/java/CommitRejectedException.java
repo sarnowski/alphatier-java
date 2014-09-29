@@ -3,7 +3,8 @@ package io.alphatier.java;
 public final class CommitRejectedException extends Exception {
     private final CommitResult result;
 
-    public CommitRejectedException(final CommitResult result) {
+    public CommitRejectedException(final String message, final CommitResult result) {
+        super(message);
         this.result = result;
     }
 
@@ -14,7 +15,8 @@ public final class CommitRejectedException extends Exception {
     @Override
     public String toString() {
         return "CommitRejectedException{" +
-                "result=" + result +
+                "message=" + getMessage() +
+                ", result=" + result +
                 '}';
     }
 }

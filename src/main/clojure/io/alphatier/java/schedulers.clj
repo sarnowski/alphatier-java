@@ -9,16 +9,15 @@
 
 (defn -commit [_ ^Pool pool ^Commit commit]
   (try
-    (mappings/to-CommitResult
-      (schedulers/commit (.getPool pool)
-                         (mappings/from-Commit commit)
-                         :force false))
+    (let [commit (mappings/from-Commit commit)]
+      (mappings/to-CommitResult
+        (schedulers/commit (.getPool pool) commit :force false)))
     (catch ExceptionInfo e
       (throw (CommitRejectedException.
+               (.getMessage e)
                (mappings/to-CommitResult (ex-data e)))))))
 
 (defn -forcedCommit [_ ^Pool pool ^Commit commit]
   (mappings/to-CommitResult
-    (schedulers/commit (.getPool pool)
-                       (mappings/from-Commit commit)
-                       :force true)))
+    (let [commit (mappings/from-Commit commit)]
+      (schedulers/commit (.getPool pool) commit :force true))))

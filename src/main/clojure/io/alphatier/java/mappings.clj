@@ -1,6 +1,7 @@
 (ns io.alphatier.java.mappings
   (:import (io.alphatier.java Snapshot Executor Status Task LifecyclePhase LazySnapshot CommitResult Commit
-                              CommitCreateAction CommitUpdateAction CommitKillAction CommitAction ExecutorRegistration))
+                              CommitCreateAction CommitUpdateAction CommitKillAction CommitAction ExecutorRegistration
+                              ConstraintType))
   (:require [io.alphatier.schedulers :as schedulers]
             [io.alphatier.pools :as pools]
             [clojure.core.memoize :as memoize]))
@@ -76,7 +77,7 @@
   (with-meta
     (merge
       (from-CommitTaskBase task)
-      {:action :create
+      {:type :create
        :executor-id (.getExecutorId task)
        :resources (into {} (.getResources task))
        :metadata (into {} (.getMetadata task))})
@@ -86,7 +87,7 @@
   (with-meta
     (merge
       (from-CommitTaskBase task)
-      {:action :update
+      {:type :update
        :metadata (into {} (.getMetadata task))})
     {:original task}))
 
@@ -94,7 +95,7 @@
   (with-meta
     (merge
       (from-CommitTaskBase task)
-      {:action :kill})
+      {:type :kill})
     {:original task}))
 
 (defn from-Commit [^Commit commit]
@@ -113,3 +114,6 @@
                     :metadata (into {} (.getMetadata task))
                     :metadata-version (.getMetadataVersion task)}))
 
+(def from-ConstraintType
+  {ConstraintType/PRE :pre
+   ConstraintType/POST :post})
