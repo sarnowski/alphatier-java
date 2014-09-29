@@ -17,7 +17,7 @@ public final class CommitUpdateAction extends CommitAction {
 
     @Override
     public String toString() {
-        return "CommitCreateAction{" +
+        return "CommitUpdateAction{" +
                 "taskId='" + getTaskId() + '\'' +
                 ", metadata=" + metadata +
                 ", metadataVersion=" + getMetadataVersion() +
