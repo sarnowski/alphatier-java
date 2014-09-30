@@ -59,6 +59,14 @@
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- required here for generating autodoc -->
+        <dependency>
+            <groupId>autodoc</groupId>
+            <artifactId>autodoc</artifactId>
+            <version>0.9.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -89,6 +97,7 @@
                         <goals>
                             <goal>compile</goal>
                             <goal>add-source</goal>
+                            <goal>autodoc</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -102,30 +111,31 @@
                 <executions>
                     <execution>
                         <id>attach-sources</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>jar-no-fork</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
-            <!-- TODO currently not working:
-                [ERROR] Exit code: 1 - javadoc: error - com.sun.tools.doclets.internal.toolkit.util.DocletAbortException:
-                com.sun.tools.javac.code.Symbol$CompletionFailure: class file for clojure.lang.AFunction not found
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10</version>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.5</version>
                 <executions>
                     <execution>
-                        <id>attach-javadocs</id>
+                        <id>autodoc-javadoc-jar</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <classifier>javadoc</classifier>
+                            <classesDirectory>${project.build.directory}/autodoc</classesDirectory>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
-            -->
 
             <!-- release signing -->
             <plugin>
@@ -144,6 +154,13 @@
             </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>clojars.org</id>
+            <url>http://clojars.org/repo</url>
+        </repository>
+    </repositories>
 
     <distributionManagement>
         <snapshotRepository>
