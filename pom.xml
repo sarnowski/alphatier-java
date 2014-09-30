@@ -4,7 +4,37 @@
 
     <groupId>io.alphatier</groupId>
     <artifactId>alphatier-java</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
+
+    <name>Alphatier (Java version)</name>
+    <url>http://alphatier.io/</url>
+    <description>
+        Alphatier is a resource management library. It is designed to allow different schedulers to share the
+        resources of a pool of executors in order to execute tasks with those.
+    </description>
+
+    <licenses>
+        <license>
+            <name>ISC License</name>
+            <url>http://opensource.org/licenses/ISC</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git://github.com/sarnowski/alphatier-java.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/sarnowski/alphatier-java.git</developerConnection>
+        <url>https://github.com/sarnowski/alphatier-java</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>Tobias Sarnowski</name>
+            <url>http://www.sarnowski.io</url>
+            <email>tobias@sarnowski.io</email>
+            <timezone>+1</timezone>
+        </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -14,7 +44,7 @@
         <dependency>
             <groupId>io.alphatier</groupId>
             <artifactId>alphatier</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>0.1.0</version>
         </dependency>
 
         <dependency>
@@ -33,7 +63,7 @@
 
     <build>
         <plugins>
-            <!-- java 7 -->
+            <!-- java 6 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -73,7 +103,7 @@
                     <execution>
                         <id>attach-sources</id>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>jar-no-fork</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -96,6 +126,33 @@
                 </executions>
             </plugin>
             -->
+
+            <!-- release signing -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 </project>

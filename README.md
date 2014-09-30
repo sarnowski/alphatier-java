@@ -26,6 +26,17 @@ namespaces from Alphatier are available through their respective Java interfaces
     * interface: io.alphatier.java.Executors
     * implementation: io.alphatier.java.InternalExecutors
 
+## Usage
+
+The library is available in the
+[central Maven repository](https://repo1.maven.org/maven2/io/alphatier/alphatier-java/0.1.0/):
+
+    <dependency>
+        <groupId>io.alphatier</groupId>
+        <artifactId>alphatier-java</artifactId>
+        <version>0.1.0</version>
+    </dependency>
+
 ## Development
 
 The source code is managed via [git](http://www.git-scm.com/) and hosted on
