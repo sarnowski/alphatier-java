@@ -69,7 +69,6 @@ public class SchedulersTest {
                     add(new CommitCreateAction(
                             "test-task-3",
                             "test-executor",
-                            1,
                             4,
                             7,
                             new HashMap<String, Number>() {{
