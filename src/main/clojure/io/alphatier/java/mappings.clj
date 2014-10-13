@@ -71,7 +71,7 @@
    :lifecycle-phase (from-LifecyclePhase (.getLifecyclePhase task))
    :resources (.getResources task)
    :metadata (.getMetadata task)
-   :metadata-version (.getMetadataVersion)})
+   :metadata-version (.getMetadataVersion task)})
 
 (defn- to-Snapshot' [snapshot]
   (Snapshot. (doall (into {} (map (fn [[k v]] [k (to-Executor v)]) (:executors snapshot))))
