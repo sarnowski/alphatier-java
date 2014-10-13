@@ -11,9 +11,17 @@
     default
     value))
 
+(defn to-map
+  ([key value] (to-map key value (complement nil?)))
+  ([key value test] (if (test value) {key value} {})))
+
 (def to-Status
   {:registered Status/REGISTERED
    :unregistered Status/UNREGISTERED})
+
+(def from-Status
+  {Status/REGISTERED :registered
+   Status/UNREGISTERED :unregistered})
 
 (defn to-Executor [executor]
   (Executor. (:id executor)
@@ -23,6 +31,15 @@
              (:metadata-version executor)
              (:task-ids executor)
              (:task-ids-version executor)))
+
+(defn from-Executor [^Executor executor]
+  {:id (.getId executor)
+   :status (from-Status (.getStatus executor))
+   :resources (.getResources executor)
+   :metadata (.getMetadata executor)
+   :metadata-version (.getMetadataVersion executor)
+   :task-ids (.getTaskIds executor)
+   :task-ids-version (.getTaskIdsVersion executor)})
 
 (def to-LifecyclePhase
   {:create LifecyclePhase/CREATE
@@ -47,6 +64,15 @@
          (:metadata task)
          (:metadata-version task)))
 
+(defn from-Task [^Task task]
+  {:id (.getId task)
+   :executor-id (.getExecutorId task)
+   :scheduler-id (.getSchedulerId task)
+   :lifecycle-phase (from-LifecyclePhase (.getLifecyclePhase task))
+   :resources (.getResources task)
+   :metadata (.getMetadata task)
+   :metadata-version (.getMetadataVersion)})
+
 (defn- to-Snapshot' [snapshot]
   (Snapshot. (doall (into {} (map (fn [[k v]] [k (to-Executor v)]) (:executors snapshot))))
              (doall (into {} (map (fn [[k v]] [k (to-Task v)]) (:tasks snapshot))))))
@@ -61,26 +87,23 @@
         (to-Snapshot snapshot)
         nil))))
 
+(defn from-Snapshot [^Snapshot snapshot]
+  {:executors (into {} (map (fn [[k v]] [k (from-Executor v)]) (.getExecutors snapshot)))
+   :tasks (into {} (map (fn [[k v]] [k (from-Task v)]) (.getTasks snapshot)))})
+
 (defn to-original [value]
   (:original (meta value)))
 
 (defn to-CommitResult [result]
   (CommitResult.  (doall (map to-original (:accepted-actions result)))
-                  (doall (into {} (map (fn [[c t]] [c (to-original t)]) (:rejected-actions result))))
+                  (doall (into {} (map (fn [[c t]] [(name c) (to-original t)]) (:rejected-actions result))))
                   (to-LazySnapshot (:pre-snapshot result))
                   (to-LazySnapshot (:post-snapshot result))))
 
 (defn- from-CommitTaskBase [^CommitAction task]
   (merge {:id (.getTaskId task)}
-         (if (nil? (.getMetadataVersion task))
-           {}
-           {:metadata-version (.getMetadataVersion task)})
-         (if (nil? (.getExecutorMetadataVersion task))
-           {}
-           {:executor-metadata-version (.getExecutorMetadataVersion task)})
-         (if (nil? (.getExecutorTaskIdsVersion task))
-           {}
-           {:executor-task-ids-version (.getExecutorTaskIdsVersion task)})))
+         (to-map :executor-metadata-version (.getExecutorMetadataVersion task))
+         (to-map :executor-task-ids-version (.getExecutorTaskIdsVersion task))))
 
 (defmulti from-CommitTask class)
 
@@ -91,8 +114,7 @@
       {:type :create
        :executor-id (.getExecutorId task)
        :resources (into {} (.getResources task))
-       :metadata (into {} (.getMetadata task))
-       :metadata-version (with-default 0 (.getMetadataVersion task))})
+       :metadata (into {} (.getMetadata task))})
     {:original task}))
 
 (defmethod from-CommitTask CommitUpdateAction [task]
@@ -100,21 +122,23 @@
     (merge
       (from-CommitTaskBase task)
       {:type :update
-       :metadata (into {} (.getMetadata task))})
+       :metadata (into {} (.getMetadata task))}
+      (to-map :metadata-version (.getMetadataVersion task)))
     {:original task}))
 
 (defmethod from-CommitTask CommitKillAction [task]
   (with-meta
     (merge
       (from-CommitTaskBase task)
-      {:type :kill})
+      {:type :kill}
+      (to-map :metadata-version (.getMetadataVersion task)))
     {:original task}))
 
 (defn from-Commit [^Commit commit]
   (with-meta
-    (schedulers/map->Commit {:scheduler-id (.getSchedulerId commit)
-                             :actions (map from-CommitTask (.getActions commit))
-                             :allow-partial-commit (.isAllowPartialCommit commit)})
+    (pools/map->Commit {:scheduler-id (.getSchedulerId commit)
+                        :actions (map from-CommitTask (.getActions commit))
+                        :allow-partial-commit (.isAllowPartialCommit commit)})
     {:original commit}))
 
 (defn from-Task [^Task task]

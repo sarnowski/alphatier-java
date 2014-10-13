@@ -3,7 +3,7 @@ package io.alphatier.java;
 public interface Pools {
     Pool create();
 
-    // TODO  createWithSnapshot currently not implemented
+    Pool createWithSnapshot(Snapshot snapshot);
 
     LazySnapshot getSnapshot(Pool pool);
 }

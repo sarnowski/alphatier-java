@@ -10,11 +10,7 @@ import static org.junit.Assert.*;
 public class SchedulersTest {
     @Test
     public void commit() throws CommitRejectedException {
-        Pool pool = Units.POOLS.create();
-
-        // TODO both constraints are currently buggy :-( (maybe impl or mapping)
-        Units.CONSTRAINTS.del(pool, "optimistic-locking", ConstraintType.PRE);
-        Units.CONSTRAINTS.del(pool, "no-resource-overbooking", ConstraintType.POST);
+        Pool pool = Units.CONSTRAINTS.withDefaults(Units.POOLS.create());
 
         ExecutorRegistration registration = new ExecutorRegistration(
                 "test-executor",

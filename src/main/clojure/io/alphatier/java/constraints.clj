@@ -27,3 +27,6 @@
 
 (defn -del [_ ^Pool pool ^String name ^ConstraintType type]
   (constraints/del (.getPool pool) (mappings/from-ConstraintType type) (keyword name)))
+
+(defn -withDefaults [_ ^Pool pool]
+  (Pool. (constraints/with-defaults (.getPool pool))))
