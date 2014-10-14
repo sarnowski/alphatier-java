@@ -3,7 +3,7 @@
 
     <groupId>io.alphatier</groupId>
     <artifactId>alphatier-java</artifactId>
-    <version>0.2.0</version>
+    <version>0.3.0-SNAPSHOT</version>
 
     <name>Alphatier (Java version)</name>
     <url>http://alphatier.io/</url>
@@ -24,7 +24,7 @@
         <connection>scm:git:git://github.com/sarnowski/alphatier-java.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/sarnowski/alphatier-java.git</developerConnection>
         <url>https://github.com/sarnowski/alphatier-java</url>
-      <tag>0.2.0</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <developers>
