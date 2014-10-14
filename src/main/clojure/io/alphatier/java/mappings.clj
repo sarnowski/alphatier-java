@@ -96,7 +96,7 @@
 
 (defn to-CommitResult [result]
   (CommitResult.  (doall (map to-original (:accepted-actions result)))
-                  (doall (into {} (map (fn [[c t]] [(name c) (to-original t)]) (:rejected-actions result))))
+                  (doall (into {} (map (fn [[c t]] [(name c) (map to-original t)]) (:rejected-actions result))))
                   (to-LazySnapshot (:pre-snapshot result))
                   (to-LazySnapshot (:post-snapshot result))))
 
