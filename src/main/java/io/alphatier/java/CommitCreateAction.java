@@ -10,7 +10,7 @@ public final class CommitCreateAction extends CommitAction {
     public CommitCreateAction(final String taskId, final String executorId,
             final Number executorMetadataVersion, final Number executorTaskIdsVersion,
             final Map<String, Number> resources, final Map<Object, Object> metadata) {
-        super(taskId, null, executorMetadataVersion, executorTaskIdsVersion);
+        super(taskId, executorMetadataVersion, executorTaskIdsVersion);
         this.executorId = executorId;
         this.resources = resources;
         this.metadata = metadata;
@@ -35,7 +35,6 @@ public final class CommitCreateAction extends CommitAction {
                 ", executorId='" + executorId + '\'' +
                 ", resources=" + resources +
                 ", metadata=" + metadata +
-                ", metadataVersion=" + getMetadataVersion() +
                 ", executorMetadataVersion=" + getExecutorMetadataVersion() +
                 ", executorTaskIdsVersion=" + getExecutorTaskIdsVersion() +
                 '}';

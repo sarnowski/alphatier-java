@@ -1,9 +1,17 @@
 package io.alphatier.java;
 
 public final class CommitKillAction extends CommitAction {
+
+    private final Number metadataVersion;
+
     public CommitKillAction(final String taskId, final Number taskMetadataVersion, final Number executorMetadataVersion,
                             final Number executorTaskIdsVersion) {
-        super(taskId, taskMetadataVersion, executorMetadataVersion, executorTaskIdsVersion);
+        super(taskId, executorMetadataVersion, executorTaskIdsVersion);
+        this.metadataVersion = taskMetadataVersion;
+    }
+
+    public Number getMetadataVersion() {
+        return metadataVersion;
     }
 
     @Override

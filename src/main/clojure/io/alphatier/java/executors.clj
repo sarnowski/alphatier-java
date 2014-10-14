@@ -4,13 +4,14 @@
   (:gen-class
     :name io.alphatier.java.InternalExecutors
     :implements [io.alphatier.java.Executors])
-  (:import (io.alphatier.java ExecutorRegistration Pool LifecyclePhase)))
+  (:import (io.alphatier.java ExecutorRegistration Pool LifecyclePhase)
+           [clojure.lang PersistentArrayMap]))
 
 (defn -register [_ ^Pool pool ^ExecutorRegistration registration]
   (executors/register (.getPool pool)
                       (.getId registration)
-                      (.getResources registration)
-                      :metadata (into {} (.getMetadata registration))
+                      (PersistentArrayMap/create (.getResources registration))
+                      :metadata (PersistentArrayMap/create (into {} (.getMetadata registration)))
                       :metadata-version (mappings/with-default 0 (.getMetadataVersion registration))
                       :tasks (map mappings/from-Task (.getTasks registration))
                       :task-ids-version (mappings/with-default 0 (.getTaskIdsVersion registration))))

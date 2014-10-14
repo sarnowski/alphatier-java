@@ -6,7 +6,7 @@
     :implements [io.alphatier.java.Constraints])
   (:import (io.alphatier.java Pool PreConstraint PostConstraint ConstraintType)))
 
-(defmulti -add class)
+(defmulti -add (fn [_ _ _ type] (class type)))
 
 (defmethod -add PreConstraint [_ ^Pool pool ^String name ^PreConstraint constraint]
   (constraints/add (.getPool pool) :pre (keyword name)
@@ -27,3 +27,6 @@
 
 (defn -del [_ ^Pool pool ^String name ^ConstraintType type]
   (constraints/del (.getPool pool) (mappings/from-ConstraintType type) (keyword name)))
+
+(defn -withDefaults [_ ^Pool pool]
+  (Pool. (constraints/with-defaults (.getPool pool))))
